@@ -104,8 +104,8 @@
     .about { background: var(--lilac); }
     .about-grid { display: grid; grid-template-columns: minmax(0, 7fr) minmax(280px, 5fr); gap: var(--s-4xl); }
     .about-copy p { max-width: 58ch; }
-    .facts { display: grid; gap: var(--s-md); }
-    .fact { padding: var(--s-lg); border-radius: var(--r-md); background: var(--surface); }
+    .facts { display: grid; width: min(100%, 760px); gap: var(--s-md); justify-items: center; margin-inline: auto; }
+    .fact { width: 100%; max-width: 680px; padding: var(--s-lg); border-radius: var(--r-md); background: var(--surface); text-align: left; }
     .fact strong { display: block; margin-bottom: var(--s-xs); font-size: 12px; font-weight: 600; letter-spacing: .08em; line-height: 18px; text-transform: uppercase; }
     .fact p { margin: 0; font-size: 14px; line-height: 21px; }
     .tool-list { display: flex; flex-wrap: wrap; gap: var(--s-xs); margin: var(--s-xl) 0 0; padding: 0; list-style: none; }
@@ -246,6 +246,8 @@
       .nav-list a { padding: var(--s-sm); }
       .hero { padding: 72px 0; }
       .about-grid, .contact-grid { grid-template-columns: 1fr; }
+      .facts { width: 100%; }
+      .fact { max-width: 100%; }
       .hero h1 { font-size: 42px; line-height: 48px; }
       .hero-copy { font-size: 17px; line-height: 27px; }
       .hero-mark { margin-bottom: var(--s-md); }
