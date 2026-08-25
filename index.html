@@ -328,12 +328,10 @@
     <section class="section about" id="sobre-mi" aria-labelledby="about-title">
       <div class="container about-grid">
         <div class="about-visual">
-          <img class="about-symbol about-symbol--large" src="assets/svg/simbolo.svg" alt="" aria-hidden="true">
           <div class="about-glass" aria-hidden="true"></div>
           <figure class="about-portrait">
             <img src="assets/img/yo.jpeg" alt="Ximena Zuzuarregui frente al mar al atardecer">
           </figure>
-          <img class="about-symbol about-symbol--small" src="assets/svg/simbolo.svg" alt="" aria-hidden="true">
         </div>
         <div class="about-copy">
           <p class="eyebrow">Sobre mí</p>
@@ -719,22 +717,6 @@
           if (!logoFrame) logoFrame = requestAnimationFrame(moveHeroAmbient);
         }, { passive: true });
 
-        var aboutVisual = document.querySelector(".about-visual");
-        var aboutPortrait = document.querySelector(".about-portrait");
-        var aboutSymbol = document.querySelector(".about-symbol--large");
-        if (aboutVisual && aboutPortrait && aboutSymbol) {
-          aboutVisual.addEventListener("pointermove", function (event) {
-            var rect = aboutVisual.getBoundingClientRect();
-            var x = ((event.clientX - rect.left) / rect.width) - .5;
-            var y = ((event.clientY - rect.top) / rect.height) - .5;
-            aboutPortrait.style.transform = "translate3d(" + (x * 6) + "px, " + (y * 6 - 2) + "px, 0) scale(1.01)";
-            aboutSymbol.style.transform = "translate3d(" + (x * -12) + "px, " + (y * -12) + "px, 0)";
-          }, { passive: true });
-          aboutVisual.addEventListener("pointerleave", function () {
-            aboutPortrait.style.transform = "";
-            aboutSymbol.style.transform = "";
-          }, { passive: true });
-        }
       }
 
       var sections = document.querySelectorAll("main section[id]");
