@@ -160,7 +160,7 @@
     .project-view.is-gallery-square .project-view-back { grid-template-columns: minmax(0, 1.75fr) minmax(320px, 1fr); }
     .project-view.is-gallery-portrait .project-view-back { position: relative; inset: auto; grid-template-columns: 1fr; min-height: max-content; }
     .project-view.is-expanded .project-view-front { opacity: 0; transform: rotateY(180deg); }
-    .project-view.is-expanded .project-view-back { transform: rotateY(0deg); }
+    .project-view.is-expanded .project-view-back { position: relative; inset: auto; grid-template-columns: 1fr; min-height: max-content; transform: rotateY(0deg); }
     .project-carousel { position: relative; display: flex; min-width: 0; min-height: 100%; flex-direction: column; align-items: center; justify-content: center; padding: var(--s-md); background: rgba(234,231,243,.72); }
     .project-carousel-image { display: block; width: 100%; height: auto; max-width: 100%; object-fit: contain; object-position: center; opacity: 1; transform: scale(1); transition: opacity 380ms var(--ease), transform 380ms var(--ease); }
     .project-view.is-gallery-portrait .project-carousel { align-items: center; justify-content: flex-start; padding: var(--s-lg); }
@@ -169,8 +169,7 @@
     .project-carousel-meta { position: relative; z-index: 1; display: flex; align-items: center; gap: var(--s-xs); margin-top: var(--s-md); }
     .carousel-control { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgba(255, 255, 255, .75); border-radius: var(--r-pill); background: rgba(255, 255, 255, .88); color: var(--on-surface); cursor: pointer; }
     .carousel-count { min-width: 48px; padding: 8px 10px; border-radius: var(--r-pill); background: rgba(43, 43, 43, .78); color: var(--surface); font-size: 12px; font-weight: 600; line-height: 18px; text-align: center; }
-    .project-expanded-info { overflow: auto; padding: var(--s-4xl) var(--s-xl) var(--s-xl); }
-    .project-view.is-gallery-portrait .project-expanded-info { overflow: visible; padding-top: var(--s-xl); }
+    .project-expanded-info { overflow: visible; padding: var(--s-xl) var(--s-xl) var(--s-3xl); }
     .project-expanded-info > * { opacity: 0; transform: translateY(12px); transition: opacity 360ms var(--ease), transform 360ms var(--ease); }
     .project-view.is-detail-ready .project-expanded-info > * { opacity: 1; transform: translateY(0); }
     .project-expanded-info > :nth-child(2) { transition-delay: 70ms; }
@@ -330,6 +329,14 @@
 
     <section class="section about" id="sobre-mi" aria-labelledby="about-title">
       <div class="container about-grid">
+        <div class="about-visual">
+          <img class="about-brand-symbol" src="assets/svg/simbolo.svg" alt="" aria-hidden="true">
+          <div class="about-glass" aria-hidden="true"></div>
+          <figure class="about-portrait">
+            <img src="assets/img/yo.jpeg" alt="Ximena Zuzuarregui frente al mar al atardecer">
+          </figure>
+          <img class="about-brand-symbol-small" src="assets/svg/simbolo.svg" alt="" aria-hidden="true">
+        </div>
         <div class="about-copy">
           <p class="eyebrow">Sobre mí</p>
           <h2 id="about-title">Curiosidad, colaboración y aprendizaje constante.</h2>
@@ -722,6 +729,23 @@
           heroSymbols.forEach(function (symbol) { symbol.targetX = 0; symbol.targetY = 0; });
           if (!logoFrame) logoFrame = requestAnimationFrame(moveHeroAmbient);
         }, { passive: true });
+
+        var aboutVisual = document.querySelector(".about-visual");
+        var aboutPortrait = document.querySelector(".about-portrait");
+        var aboutSymbol = document.querySelector(".about-brand-symbol");
+        if (aboutVisual && aboutPortrait && aboutSymbol) {
+          aboutVisual.addEventListener("pointermove", function (event) {
+            var rect = aboutVisual.getBoundingClientRect();
+            var x = ((event.clientX - rect.left) / rect.width) - .5;
+            var y = ((event.clientY - rect.top) / rect.height) - .5;
+            aboutPortrait.style.transform = "translate3d(" + (x * 6) + "px, " + (y * 6 - 2) + "px, 0) scale(1.01)";
+            aboutSymbol.style.transform = "translate3d(" + (x * -13) + "px, " + (y * -13) + "px, 0)";
+          }, { passive: true });
+          aboutVisual.addEventListener("pointerleave", function () {
+            aboutPortrait.style.transform = "";
+            aboutSymbol.style.transform = "";
+          }, { passive: true });
+        }
       }
 
       var sections = document.querySelectorAll("main section[id]");
