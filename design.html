@@ -94,7 +94,7 @@ body {
     radial-gradient(circle at 20% 35%, rgba(203, 171, 206, 0.28), transparent 38%),
     radial-gradient(circle at 80% 35%, rgba(221, 113, 130, 0.16), transparent 40%),
     radial-gradient(circle at 75% 80%, rgba(244, 209, 127, 0.10), transparent 35%),
-    linear-gradient(120deg, #f4eff7 0%, #f8edf5 45%, #fff1ec 100%);
+    linear-gradient(120deg, var(--color-surface) 0%, color-mix(in srgb, var(--color-surface) 94%, var(--color-lilac)) 45%, color-mix(in srgb, var(--color-surface) 94%, var(--color-tertiary)) 100%);
   -webkit-font-smoothing: antialiased;
 }
 body::before {
@@ -118,7 +118,7 @@ a { color: var(--color-on-surface); }
 .container { max-width: var(--content-max); margin-inline: auto; padding-inline: var(--space-lg); }
 
 .section { padding-block: var(--space-6xl) var(--space-4xl); }
-.section + .section { border-top: 1px solid rgba(255, 255, 255, 0.5); }
+.section + .section { border-top: 1px solid var(--color-lilac); }
 
 .kicker {
   display: inline-block; font-size: var(--type-label-size); font-weight: var(--type-label-w);
@@ -187,8 +187,8 @@ a { color: var(--color-on-surface); }
   align-items: center;
 }
 .hero h1 {
-  max-width: 12ch; font-size: clamp(64px, 5.4vw, 78px); line-height: 0.98; font-weight: 700;
-  margin: 0 0 var(--space-lg); letter-spacing: -0.045em;
+  max-width: 12ch; font-size: var(--type-display-size); line-height: var(--type-display-lh); font-weight: var(--type-display-w);
+  margin: 0 0 var(--space-lg); letter-spacing: -0.02em;
 }
 .hero h1 .accent { color: var(--color-primary); }
 .hero p { font-size: var(--type-body-lg-size); line-height: var(--type-body-lg-lh); color: var(--color-on-surface-muted); max-width: 52ch; margin: 0 0 var(--space-3xl); }
@@ -197,24 +197,36 @@ a { color: var(--color-on-surface); }
   transform-style: preserve-3d; will-change: transform;
   transition: transform 420ms var(--ease-out);
 }
-.zuzu-logo { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 20px 26px rgba(186, 102, 139, 0.17)); }
-.zuzu-logo .logo-word { filter: url(#zuzu-smoked-glass); }
-.zuzu-logo .logo-symbol { filter: url(#zuzu-liquid-glass); }
+.zuzu-logo {
+  --glass-x: 28%; --glass-y: 20%;
+  width: 100%; height: 100%; overflow: visible;
+  filter: drop-shadow(0 10px 35px rgba(221, 113, 130, 0.18));
+}
+.zuzu-logo .symbol-cast-shadow { fill: #b4466e; opacity: 0.3; filter: url(#zuzu-symbol-depth); }
+.zuzu-logo .symbol-body { fill: url(#zuzu-symbol-body); opacity: 0.9; filter: url(#zuzu-symbol-volume); }
+.zuzu-logo .symbol-inner-shadow { fill: url(#zuzu-symbol-inner-shadow); opacity: 0.52; mix-blend-mode: multiply; }
+.zuzu-logo .symbol-refraction { fill: url(#zuzu-dynamic-highlight); opacity: 0.92; mix-blend-mode: screen; }
+.zuzu-logo .symbol-rim { fill: none; stroke: rgba(255, 255, 255, 0.65); stroke-width: 15; stroke-linejoin: round; opacity: 0.78; }
+.zuzu-logo .symbol-rim-shadow { fill: none; stroke: rgba(180, 70, 110, 0.5); stroke-width: 22; stroke-linejoin: round; opacity: 0.4; }
+.zuzu-logo .word-depth { fill: #171717; opacity: 0.32; filter: url(#zuzu-word-depth); }
+.zuzu-logo .word-body { fill: url(#zuzu-smoke-body); opacity: 0.94; filter: url(#zuzu-smoke-volume); }
+.zuzu-logo .word-reflection { fill: url(#zuzu-smoke-reflection); opacity: 0.56; mix-blend-mode: screen; }
+.zuzu-logo .word-rim { fill: none; stroke: rgba(255, 255, 255, 0.34); stroke-width: 9; stroke-linejoin: round; opacity: 0.52; }
 
 .hero-actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
-.hero .btn-primary { background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)); box-shadow: 0 10px 22px rgba(221, 113, 130, 0.22); }
-.hero .btn-primary:hover { background: linear-gradient(90deg, var(--color-primary), var(--color-secondary)); box-shadow: 0 13px 26px rgba(221, 113, 130, 0.28); transform: translateY(-2px); }
-.hero .btn-secondary { background: rgba(255, 255, 255, 0.34); border-color: rgba(255, 255, 255, 0.72); backdrop-filter: blur(14px) saturate(120%); -webkit-backdrop-filter: blur(14px) saturate(120%); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65); }
-.hero .btn-secondary:hover { background: rgba(255, 255, 255, 0.55); border-color: rgba(255, 255, 255, 0.9); transform: translateY(-1px); }
+.hero .btn-primary { background: var(--color-primary); box-shadow: none; }
+.hero .btn-primary:hover { background: var(--color-secondary); box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.hero .btn-secondary { background: transparent; border-color: var(--color-on-surface); }
+.hero .btn-secondary:hover { background: var(--color-lilac); border-color: var(--color-on-surface); transform: translateY(-1px); }
 .hero-overlay {
   position: absolute; inset: 0; z-index: 2; pointer-events: none;
   background: linear-gradient(
     180deg,
-    #f6f1f3 0%,
-    #edc9dc 40%,
-    #e8a7c8 65%,
-    #edb18f 84%,
-    #f4d17f 100%
+    color-mix(in srgb, var(--color-surface) 92%, var(--color-lilac)) 0%,
+    color-mix(in srgb, var(--color-surface) 70%, var(--color-lavender)) 40%,
+    color-mix(in srgb, var(--color-surface) 62%, var(--color-secondary)) 65%,
+    color-mix(in srgb, var(--color-surface) 70%, var(--color-primary)) 84%,
+    color-mix(in srgb, var(--color-surface) 72%, var(--color-tertiary)) 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
@@ -243,7 +255,7 @@ a { color: var(--color-on-surface); }
 .explore-glass {
   padding: clamp(var(--space-xl), 5vw, var(--space-5xl));
   background: rgba(255, 255, 255, 0.28); border: 1px solid rgba(255, 255, 255, 0.72);
-  border-radius: 32px; backdrop-filter: blur(24px) saturate(130%);
+  border-radius: var(--radius-xl); backdrop-filter: blur(24px) saturate(130%);
   -webkit-backdrop-filter: blur(24px) saturate(130%);
   box-shadow: 0 20px 50px rgba(100, 70, 95, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
@@ -253,7 +265,7 @@ a { color: var(--color-on-surface); }
 .explore-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-md); }
 .explore-card {
   min-height: 208px; display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-sm);
-  padding: var(--space-lg); border: 1px solid rgba(255, 255, 255, 0.55); border-radius: var(--radius-xl);
+  padding: var(--space-lg); border: 1px solid rgba(255, 255, 255, 0.55); border-radius: var(--radius-md);
   background: rgba(255, 255, 255, 0.34); backdrop-filter: blur(16px) saturate(120%);
   -webkit-backdrop-filter: blur(16px) saturate(120%); color: var(--color-on-surface); text-decoration: none;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.58); transition: transform var(--motion), box-shadow var(--motion), background var(--motion);
@@ -261,7 +273,7 @@ a { color: var(--color-on-surface); }
 .explore-card:hover { transform: translateY(-3px); background: rgba(255, 255, 255, 0.45); box-shadow: 0 14px 30px rgba(93, 62, 85, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.7); }
 .explore-card h3 { margin: 0; font-size: var(--type-h4-size); line-height: var(--type-h4-lh); }
 .explore-card p { margin: 0; color: var(--color-on-surface-muted); font-size: var(--type-body-sm-size); line-height: var(--type-body-sm-lh); }
-.explore-icon { width: 34px; height: 34px; display: grid; place-items: center; border-radius: 12px; color: var(--color-on-surface); font-weight: 700; font-size: var(--type-label-size); }
+.explore-icon { width: 34px; height: 34px; display: grid; place-items: center; border-radius: var(--radius-sm); color: var(--color-on-surface); font-weight: 700; font-size: var(--type-label-size); }
 .explore-icon.coral { background: var(--color-primary); }
 .explore-icon.raspberry { background: var(--color-secondary); }
 .explore-icon.lavender { background: var(--color-lavender); }
@@ -275,9 +287,8 @@ a { color: var(--color-on-surface); }
    ============================================================ */
 .palette-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-md); }
 .color-card {
-  background: rgba(255, 255, 255, 0.48); border: 1px solid rgba(255, 255, 255, 0.7);
+  background: var(--color-surface); border: 1px solid var(--color-lilac);
   border-radius: var(--radius-md); overflow: hidden; display: flex; flex-direction: column;
-  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   box-shadow: var(--shadow-none); transition: box-shadow var(--motion), transform var(--motion);
 }
 .color-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
@@ -308,7 +319,7 @@ a { color: var(--color-on-surface); }
 .type-row {
   display: grid; grid-template-columns: 160px 1fr; gap: var(--space-lg);
   align-items: baseline; padding: var(--space-sm) var(--space-md);
-  background: rgba(255, 255, 255, 0.32); border: 1px solid rgba(255, 255, 255, 0.54); border-radius: var(--radius-md);
+  background: var(--color-lilac); border: 1px solid transparent; border-radius: var(--radius-md);
 }
 .type-meta { display: grid; gap: var(--space-2xs); }
 .type-meta kbd { font-family: var(--font-family); font-size: var(--type-label-size); font-weight: var(--type-label-w); color: var(--color-primary); text-transform: uppercase; letter-spacing: 0.05em; }
@@ -357,7 +368,7 @@ a { color: var(--color-on-surface); }
 /* ============================================================
    COMPONENTES
    ============================================================ */
-.demo-block { padding: var(--space-3xl); background: rgba(255, 255, 255, 0.48); border: 1px solid rgba(255, 255, 255, 0.68); border-radius: var(--radius-xl); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: grid; gap: var(--space-2xl); }
+.demo-block { padding: var(--space-3xl); background: var(--color-surface); border: 1px solid var(--color-lilac); border-radius: var(--radius-xl); display: grid; gap: var(--space-2xl); }
 .demo-label { font-size: var(--type-label-size); font-weight: var(--type-label-w); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-on-surface-muted); margin: 0; }
 .demo-row { display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: center; }
 
@@ -409,7 +420,7 @@ a { color: var(--color-on-surface); }
 .card .card-cat { font-size: var(--type-label-size); font-weight: var(--type-label-w); text-transform: uppercase; letter-spacing: 0.06em; }
 .card .card-title { font-size: var(--type-h4-size); line-height: var(--type-h4-lh); font-weight: var(--type-h4-w); margin: 0; }
 .card .card-desc { font-size: var(--type-body-sm-size); line-height: var(--type-body-sm-lh); color: var(--color-on-surface-muted); margin: 0; }
-.card-project { background: rgba(255, 255, 255, 0.54); border: 1px solid rgba(255, 255, 255, 0.7); }
+.card-project { background: var(--color-surface); border: 1px solid var(--color-lilac); }
 .card-project:hover { box-shadow: var(--shadow-hover); }
 .card-project .card-img { background: linear-gradient(135deg, var(--color-primary), var(--color-secondary)); color: var(--color-on-surface); }
 .card-editorial { background: var(--color-lavender); }
@@ -424,7 +435,7 @@ a { color: var(--color-on-surface); }
 .field {
   font-family: var(--font-family); font-size: var(--type-label-lg-size); line-height: 1.4;
   padding: var(--space-sm) var(--space-md); border: 1.5px solid var(--color-lavender);
-  border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.62); color: var(--color-on-surface);
+  border-radius: var(--radius-sm); background: var(--color-surface); color: var(--color-on-surface);
   transition: border-color var(--motion-fast), box-shadow var(--motion-fast);
 }
 .field::placeholder { color: var(--color-on-surface-muted); }
@@ -439,7 +450,7 @@ a { color: var(--color-on-surface); }
 
 /* Elevación */
 .elevation-demo { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: var(--space-lg); }
-.elev-item { padding: var(--space-xl); background: rgba(255, 255, 255, 0.5); border-radius: var(--radius-md); border: 1px solid rgba(255, 255, 255, 0.68); display: grid; gap: var(--space-xs); text-align: center; }
+.elev-item { padding: var(--space-xl); background: var(--color-surface); border-radius: var(--radius-md); border: 1px solid var(--color-lilac); display: grid; gap: var(--space-xs); text-align: center; }
 .elev-none { box-shadow: var(--shadow-none); }
 .elev-hover { box-shadow: var(--shadow-hover); }
 .elev-float { box-shadow: var(--shadow-float); }
@@ -482,7 +493,7 @@ a { color: var(--color-on-surface); }
 /* ============================================================
    FOOTER
    ============================================================ */
-.site-footer { padding-block: var(--space-4xl); border-top: 1px solid rgba(255, 255, 255, 0.55); color: var(--color-on-surface-muted); font-size: var(--type-body-sm-size); }
+.site-footer { padding-block: var(--space-4xl); border-top: 1px solid var(--color-lilac); color: var(--color-on-surface-muted); font-size: var(--type-body-sm-size); }
 .site-footer .container { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--space-sm); }
 .token-strip { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
 .token-strip code {
@@ -590,57 +601,92 @@ a { color: var(--color-on-surface); }
         <svg class="zuzu-logo" viewBox="0 0 4000 4000" role="img" aria-labelledby="zuzu-logo-title" xmlns="http://www.w3.org/2000/svg">
           <title id="zuzu-logo-title">Logotipo de ZUZU</title>
           <defs>
-            <linearGradient id="zuzu-pink-glass" x1="0.16" y1="0.05" x2="0.84" y2="0.96">
-              <stop offset="0" stop-color="#fff5fb" stop-opacity="0.94"/>
-              <stop offset="0.24" stop-color="#f3abc0" stop-opacity="0.96"/>
-              <stop offset="0.62" stop-color="#dd7182" stop-opacity="0.84"/>
-              <stop offset="1" stop-color="#e0846e" stop-opacity="0.78"/>
+            <!-- Geometría original de logo.svg: se reutiliza en cada capa sin alterarla. -->
+            <g id="zuzu-word-paths">
+              <path d="M838,2495.9h-371.5v-231.4h774.1l-416.2,708h416.2l-66.1,231.4H419.8l418.2-708Z"/>
+              <path d="M1186.1,2264.5h243.1v529c0,124.5,70,198.4,180.9,198.4s178.9-73.9,178.9-198.4v-529h243.1v529c0,266.5-171.2,433.7-422.1,433.7s-424-167.2-424-433.7v-529h0Z"/>
+              <path d="M2386.1,2495.9h-371.5v-231.4h774.1l-416.2,708h416.2l-66.1,231.4h-754.6l418.2-708h-.1Z"/>
+              <path d="M2734.1,2264.5h243.1v529c0,124.5,70,198.4,180.9,198.4s178.9-73.9,178.9-198.4v-529h243.1v529c0,266.5-171.2,433.7-422.1,433.7s-424-167.2-424-433.7v-529h.1Z"/>
+            </g>
+            <g id="zuzu-symbol-paths">
+              <path d="M2406,1956.2l-7.1,4.9h10.4l-3.3-4.9h0ZM2197.6,908.1l-128.1,187.5-3.3,163.9,98.4-33.5,222.7-317.8h-189.7,0ZM1783.5,1072.5l-111.1-164.4h-189.7l221.1,321.7,83.6,29.7-3.8-187h0ZM1462.9,1960.6l-.6.6h1.1l-.6-.6h0Z"/>
+              <polygon points="2151.4 1528.9 2448.9 1925.4 2406 1956.2 2398.8 1961.1 2203.1 2100.2 1933.6 1703.2 1654.8 2100.2 1463.4 1961.1 1462.9 1960.6 1414 1925.4 1711.4 1528.9 1229.7 1377.7 1324.3 1093.9 1703.8 1229.8 1787.3 1259.5 1783.5 1072.5 1778 772.8 2075.5 772.8 2069.4 1095.6 2066.1 1259.5 2164.6 1225.9 2538.5 1098.9 2633.1 1382.1 2151.4 1528.9"/>
+              <path d="M2401.6,807l-7.1-4.9h10.4l-3.3,4.9h0ZM2193.2,1855.1l-128.1-187.5-3.3-163.9,98.4,33.5,222.7,317.8h-189.7,0ZM1779.1,1690.7l-111.1,164.4h-189.7l221.1-321.7,83.6-29.7-3.8,187h0ZM1458.5,802.6l-.6-.6h1.1l-.6.6h0Z"/>
+              <circle cx="1931.4" cy="1397.1" r="119.4"/>
+            </g>
+            <clipPath id="zuzu-symbol-clip"><use href="#zuzu-symbol-paths"/></clipPath>
+            <clipPath id="zuzu-word-clip"><use href="#zuzu-word-paths"/></clipPath>
+            <linearGradient id="zuzu-symbol-body" x1="0.12" y1="0.04" x2="0.88" y2="0.96">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0.76"/>
+              <stop offset="0.28" stop-color="#ffffff" stop-opacity="0.12"/>
+              <stop offset="0.65" stop-color="#dd7182" stop-opacity="0.58"/>
+              <stop offset="1" stop-color="#b4466e" stop-opacity="0.7"/>
             </linearGradient>
-            <linearGradient id="zuzu-lilac-glass" x1="0.1" y1="0" x2="0.9" y2="1">
-              <stop offset="0" stop-color="#ffffff" stop-opacity="0.86"/>
-              <stop offset="0.52" stop-color="#edc3dc" stop-opacity="0.88"/>
-              <stop offset="1" stop-color="#cbabce" stop-opacity="0.76"/>
+            <linearGradient id="zuzu-symbol-inner-shadow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0.46" stop-color="#dd7182" stop-opacity="0"/>
+              <stop offset="0.78" stop-color="#b4466e" stop-opacity="0.16"/>
+              <stop offset="1" stop-color="#7f294c" stop-opacity="0.52"/>
             </linearGradient>
-            <linearGradient id="zuzu-smoke-glass" x1="0.1" y1="0" x2="0.9" y2="1">
-              <stop offset="0" stop-color="#5f5f5f"/>
-              <stop offset="0.5" stop-color="#2b2b2b"/>
-              <stop offset="1" stop-color="#171717"/>
+            <radialGradient id="zuzu-dynamic-highlight" cx="28%" cy="20%" r="56%">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0.92"/>
+              <stop offset="0.16" stop-color="#fff5fb" stop-opacity="0.58"/>
+              <stop offset="0.36" stop-color="#f3abc0" stop-opacity="0.2"/>
+              <stop offset="0.62" stop-color="#ffffff" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="zuzu-smoke-body" x1="0.1" y1="0" x2="0.9" y2="1">
+              <stop offset="0" stop-color="#747474" stop-opacity="0.88"/>
+              <stop offset="0.22" stop-color="#2b2b2b" stop-opacity="0.8"/>
+              <stop offset="0.7" stop-color="#171717" stop-opacity="0.94"/>
+              <stop offset="1" stop-color="#050505" stop-opacity="0.96"/>
             </linearGradient>
-            <filter id="zuzu-liquid-glass" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="12" result="soft-edge"/>
-              <feSpecularLighting in="soft-edge" surfaceScale="8" specularConstant="0.58" specularExponent="18" lighting-color="#fff9fc" result="specular">
-                <feDistantLight azimuth="220" elevation="52"/>
+            <linearGradient id="zuzu-smoke-reflection" x1="0" y1="0" x2="0.8" y2="1">
+              <stop offset="0" stop-color="#ffffff" stop-opacity="0.5"/>
+              <stop offset="0.18" stop-color="#edc3dc" stop-opacity="0.18"/>
+              <stop offset="0.45" stop-color="#ffffff" stop-opacity="0"/>
+            </linearGradient>
+            <filter id="zuzu-symbol-depth" x="-24%" y="-24%" width="148%" height="156%" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="18" result="blur"/>
+              <feOffset in="blur" dx="0" dy="24" result="offset"/>
+              <feFlood flood-color="#b4466e" flood-opacity="0.48" result="shade"/>
+              <feComposite in="shade" in2="offset" operator="in"/>
+            </filter>
+            <filter id="zuzu-symbol-volume" x="-18%" y="-18%" width="136%" height="136%" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="10" result="soft-edge"/>
+              <feSpecularLighting in="soft-edge" surfaceScale="11" specularConstant="0.8" specularExponent="22" lighting-color="#fff9fc" result="specular">
+                <feDistantLight azimuth="225" elevation="58"/>
               </feSpecularLighting>
               <feComposite in="specular" in2="SourceAlpha" operator="in" result="highlight"/>
-              <feMerge>
-                <feMergeNode in="SourceGraphic"/>
-                <feMergeNode in="highlight"/>
-              </feMerge>
+              <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="highlight"/></feMerge>
             </filter>
-            <filter id="zuzu-smoked-glass" x="-10%" y="-10%" width="120%" height="120%" color-interpolation-filters="sRGB">
-              <feGaussianBlur in="SourceAlpha" stdDeviation="6" result="smoke-edge"/>
-              <feSpecularLighting in="smoke-edge" surfaceScale="4" specularConstant="0.3" specularExponent="14" lighting-color="#f7eefa" result="smoke-light">
-                <feDistantLight azimuth="225" elevation="50"/>
+            <filter id="zuzu-word-depth" x="-16%" y="-16%" width="132%" height="148%">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="13" result="blur"/>
+              <feOffset in="blur" dx="0" dy="18" result="offset"/>
+              <feFlood flood-color="#171717" flood-opacity="0.38" result="shade"/>
+              <feComposite in="shade" in2="offset" operator="in"/>
+            </filter>
+            <filter id="zuzu-smoke-volume" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+              <feGaussianBlur in="SourceAlpha" stdDeviation="5" result="smoke-edge"/>
+              <feSpecularLighting in="smoke-edge" surfaceScale="5" specularConstant="0.42" specularExponent="16" lighting-color="#ffffff" result="smoke-light">
+                <feDistantLight azimuth="220" elevation="55"/>
               </feSpecularLighting>
               <feComposite in="smoke-light" in2="SourceAlpha" operator="in" result="smoke-highlight"/>
-              <feMerge>
-                <feMergeNode in="SourceGraphic"/>
-                <feMergeNode in="smoke-highlight"/>
-              </feMerge>
+              <feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="smoke-highlight"/></feMerge>
             </filter>
           </defs>
-          <g class="logo-word">
-            <path fill="url(#zuzu-smoke-glass)" d="M838,2495.9h-371.5v-231.4h774.1l-416.2,708h416.2l-66.1,231.4H419.8l418.2-708Z"/>
-            <path fill="url(#zuzu-smoke-glass)" d="M1186.1,2264.5h243.1v529c0,124.5,70,198.4,180.9,198.4s178.9-73.9,178.9-198.4v-529h243.1v529c0,266.5-171.2,433.7-422.1,433.7s-424-167.2-424-433.7v-529h0Z"/>
-            <path fill="url(#zuzu-smoke-glass)" d="M2386.1,2495.9h-371.5v-231.4h774.1l-416.2,708h416.2l-66.1,231.4h-754.6l418.2-708h-.1Z"/>
-            <path fill="url(#zuzu-smoke-glass)" d="M2734.1,2264.5h243.1v529c0,124.5,70,198.4,180.9,198.4s178.9-73.9,178.9-198.4v-529h243.1v529c0,266.5-171.2,433.7-422.1,433.7s-424-167.2-424-433.7v-529h.1Z"/>
+          <use class="symbol-cast-shadow" href="#zuzu-symbol-paths" transform="translate(0 24)"/>
+          <use class="symbol-rim-shadow" href="#zuzu-symbol-paths"/>
+          <use class="symbol-body" href="#zuzu-symbol-paths"/>
+          <g clip-path="url(#zuzu-symbol-clip)">
+            <rect class="symbol-inner-shadow" x="1100" y="760" width="1600" height="1500"/>
+            <rect class="symbol-refraction" x="1100" y="720" width="1600" height="1500"/>
           </g>
-          <g class="logo-symbol">
-            <path fill="url(#zuzu-pink-glass)" d="M2406,1956.2l-7.1,4.9h10.4l-3.3-4.9h0ZM2197.6,908.1l-128.1,187.5-3.3,163.9,98.4-33.5,222.7-317.8h-189.7,0ZM1783.5,1072.5l-111.1-164.4h-189.7l221.1,321.7,83.6,29.7-3.8-187h0ZM1462.9,1960.6l-.6.6h1.1l-.6-.6h0Z"/>
-            <polygon fill="url(#zuzu-lilac-glass)" points="2151.4 1528.9 2448.9 1925.4 2406 1956.2 2398.8 1961.1 2203.1 2100.2 1933.6 1703.2 1654.8 2100.2 1463.4 1961.1 1462.9 1960.6 1414 1925.4 1711.4 1528.9 1229.7 1377.7 1324.3 1093.9 1703.8 1229.8 1787.3 1259.5 1783.5 1072.5 1778 772.8 2075.5 772.8 2069.4 1095.6 2066.1 1259.5 2164.6 1225.9 2538.5 1098.9 2633.1 1382.1 2151.4 1528.9"/>
-            <path fill="url(#zuzu-pink-glass)" d="M2401.6,807l-7.1-4.9h10.4l-3.3,4.9h0ZM2193.2,1855.1l-128.1-187.5-3.3-163.9,98.4,33.5,222.7,317.8h-189.7,0ZM1779.1,1690.7l-111.1,164.4h-189.7l221.1-321.7,83.6-29.7-3.8,187h0ZM1458.5,802.6l-.6-.6h1.1l-.6.6h0Z"/>
-            <circle fill="url(#zuzu-pink-glass)" cx="1931.4" cy="1397.1" r="119.4"/>
+          <use class="symbol-rim" href="#zuzu-symbol-paths"/>
+          <use class="word-depth" href="#zuzu-word-paths" transform="translate(0 18)"/>
+          <use class="word-body" href="#zuzu-word-paths"/>
+          <g clip-path="url(#zuzu-word-clip)">
+            <rect class="word-reflection" x="340" y="2190" width="3350" height="1120"/>
           </g>
+          <use class="word-rim" href="#zuzu-word-paths"/>
         </svg>
       </div>
     </div>
@@ -1150,9 +1196,17 @@ a { color: var(--color-on-surface); }
   var finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   var heroFrame;
   var heroLogo = hero.querySelector(".hero-motif");
+  var heroLogoSvg = hero.querySelector(".zuzu-logo");
+  var heroHighlight = hero.querySelector("#zuzu-dynamic-highlight");
   var heroLogoFrame;
   var heroLogoTiltX = 0;
   var heroLogoTiltY = 0;
+  var heroLogoTargetTiltX = 0;
+  var heroLogoTargetTiltY = 0;
+  var heroGlassX = 28;
+  var heroGlassY = 20;
+  var heroGlassTargetX = 28;
+  var heroGlassTargetY = 20;
   var touchStartX = 0;
   var touchStartY = 0;
   var touchIsHorizontal = false;
@@ -1184,21 +1238,36 @@ a { color: var(--color-on-surface); }
   }
   function renderHeroLogoTilt() {
     heroLogoFrame = undefined;
+    heroLogoTiltX += (heroLogoTargetTiltX - heroLogoTiltX) * 0.1;
+    heroLogoTiltY += (heroLogoTargetTiltY - heroLogoTiltY) * 0.1;
+    heroGlassX += (heroGlassTargetX - heroGlassX) * 0.08;
+    heroGlassY += (heroGlassTargetY - heroGlassY) * 0.08;
     heroLogo.style.transform = "perspective(1000px) rotateX(" + heroLogoTiltX + "deg) rotateY(" + heroLogoTiltY + "deg)";
+    heroLogoSvg.style.setProperty("--glass-x", heroGlassX + "%");
+    heroLogoSvg.style.setProperty("--glass-y", heroGlassY + "%");
+    heroHighlight.setAttribute("cx", heroGlassX + "%");
+    heroHighlight.setAttribute("cy", heroGlassY + "%");
+    if (Math.abs(heroLogoTargetTiltX - heroLogoTiltX) > 0.01 || Math.abs(heroLogoTargetTiltY - heroLogoTiltY) > 0.01 || Math.abs(heroGlassTargetX - heroGlassX) > 0.08 || Math.abs(heroGlassTargetY - heroGlassY) > 0.08) {
+      heroLogoFrame = requestAnimationFrame(renderHeroLogoTilt);
+    }
   }
   function updateHeroLogoTilt(event) {
     if (reduceHeroMotion || (event.pointerType !== "mouse" && event.pointerType !== "pen")) return;
     var rect = hero.getBoundingClientRect();
     var x = ((event.clientX - rect.left) / rect.width) - 0.5;
     var y = ((event.clientY - rect.top) / rect.height) - 0.5;
-    heroLogoTiltX = Math.max(-2.5, Math.min(2.5, -y * 5));
-    heroLogoTiltY = Math.max(-2.5, Math.min(2.5, x * 5));
+    heroLogoTargetTiltX = Math.max(-2.5, Math.min(2.5, -y * 5));
+    heroLogoTargetTiltY = Math.max(-2.5, Math.min(2.5, x * 5));
+    heroGlassTargetX = Math.max(16, Math.min(56, 28 + x * 28));
+    heroGlassTargetY = Math.max(12, Math.min(48, 20 + y * 28));
     if (!heroLogoFrame) heroLogoFrame = requestAnimationFrame(renderHeroLogoTilt);
   }
   function resetHeroLogoTilt() {
     if (reduceHeroMotion) return;
-    heroLogoTiltX = 0;
-    heroLogoTiltY = 0;
+    heroLogoTargetTiltX = 0;
+    heroLogoTargetTiltY = 0;
+    heroGlassTargetX = 28;
+    heroGlassTargetY = 20;
     if (!heroLogoFrame) heroLogoFrame = requestAnimationFrame(renderHeroLogoTilt);
   }
 
