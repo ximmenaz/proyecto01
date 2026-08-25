@@ -123,9 +123,9 @@
     .project-card[hidden] { display: none; }
     .project-art { position: relative; min-height: 220px; padding: var(--s-lg); display: flex; align-items: flex-end; overflow: hidden; font-size: 12px; font-weight: 600; letter-spacing: .08em; line-height: 18px; text-transform: uppercase; transform: scale(1); transform-origin: center; transition: transform 300ms cubic-bezier(.22, 1, .36, 1); }
     .project-art::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(43, 43, 43, .36)); pointer-events: none; }
-    .project-art > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 300ms cubic-bezier(.22, 1, .36, 1); }
+    .project-art > img { position: absolute; inset: 0; width: 100%; height: 100%; padding: var(--s-sm); object-fit: contain; object-position: center; transition: transform 300ms cubic-bezier(.22, 1, .36, 1); }
     .project-art > span { position: relative; z-index: 1; color: var(--surface); }
-    .project-card:hover .project-art > img { transform: scale(1.03); }
+    .project-card:hover .project-art > img { transform: scale(1.015); }
     .art-brand { background: var(--lavender); }
     .art-package { background: var(--tertiary); }
     .art-campaign { background: var(--secondary); }
@@ -148,7 +148,7 @@
     .project-stage.is-active { pointer-events: auto; }
     .project-stage::before { content: ""; position: absolute; inset: 0; background: rgba(234, 231, 243, .72); opacity: 0; transition: opacity 300ms var(--ease); }
     .project-stage.is-active::before { opacity: 1; }
-    .project-view { position: fixed; z-index: 1; width: var(--view-width); height: var(--view-height); overflow: hidden; border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-float); transform: var(--view-from); transform-origin: top left; transform-style: preserve-3d; opacity: 0; transition: opacity 100ms linear, transform 620ms cubic-bezier(.22, 1, .36, 1); }
+    .project-view { position: fixed; z-index: 1; width: var(--view-width); height: var(--view-height); max-height: calc(100dvh - 32px); overflow-x: hidden; overflow-y: auto; border-radius: var(--r-xl); background: var(--surface); box-shadow: var(--shadow-float); transform: var(--view-from); transform-origin: top left; transform-style: preserve-3d; opacity: 0; transition: opacity 100ms linear, transform 620ms cubic-bezier(.22, 1, .36, 1); }
     .project-stage.is-active .project-view { opacity: 1; }
     .project-view.is-expanded { transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
     .project-view.is-mobile.is-expanded { transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
@@ -156,16 +156,21 @@
     .project-view-front { grid-template-rows: 1fr auto; background: var(--surface); transform: rotateY(0deg); }
     .project-view-front .project-art { min-height: 0; }
     .project-view-front .front-title { padding: var(--s-md) var(--s-lg); font-size: 16px; font-weight: 600; line-height: 22px; }
-    .project-view-back { grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr); transform: rotateY(-180deg); background: var(--surface); }
+    .project-view-back { grid-template-columns: minmax(0, 2fr) minmax(300px, .9fr); transform: rotateY(-180deg); background: var(--surface); }
+    .project-view.is-gallery-square .project-view-back { grid-template-columns: minmax(0, 1.75fr) minmax(320px, 1fr); }
+    .project-view.is-gallery-portrait .project-view-back { position: relative; inset: auto; grid-template-columns: 1fr; min-height: max-content; }
     .project-view.is-expanded .project-view-front { opacity: 0; transform: rotateY(180deg); }
     .project-view.is-expanded .project-view-back { transform: rotateY(0deg); }
-    .project-carousel { position: relative; min-height: 100%; overflow: hidden; background: var(--lilac); }
-    .project-carousel-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 1; transform: scale(1); transition: opacity 420ms var(--ease), transform 420ms var(--ease); }
+    .project-carousel { position: relative; display: flex; min-width: 0; min-height: 100%; flex-direction: column; align-items: center; justify-content: center; padding: var(--s-md); background: rgba(234,231,243,.72); }
+    .project-carousel-image { display: block; width: 100%; height: auto; max-width: 100%; object-fit: contain; object-position: center; opacity: 1; transform: scale(1); transition: opacity 380ms var(--ease), transform 380ms var(--ease); }
+    .project-view.is-gallery-portrait .project-carousel { align-items: center; justify-content: flex-start; padding: var(--s-lg); }
+    .project-view.is-gallery-portrait .project-carousel-image { width: min(100%, 760px); max-width: 100%; height: auto; max-height: none; }
     .project-carousel-image.is-changing { opacity: 0; transform: scale(1.01); }
-    .project-carousel-meta { position: absolute; z-index: 1; right: var(--s-md); bottom: var(--s-md); display: flex; align-items: center; gap: var(--s-xs); }
+    .project-carousel-meta { position: relative; z-index: 1; display: flex; align-items: center; gap: var(--s-xs); margin-top: var(--s-md); }
     .carousel-control { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid rgba(255, 255, 255, .75); border-radius: var(--r-pill); background: rgba(255, 255, 255, .88); color: var(--on-surface); cursor: pointer; }
     .carousel-count { min-width: 48px; padding: 8px 10px; border-radius: var(--r-pill); background: rgba(43, 43, 43, .78); color: var(--surface); font-size: 12px; font-weight: 600; line-height: 18px; text-align: center; }
     .project-expanded-info { overflow: auto; padding: var(--s-4xl) var(--s-xl) var(--s-xl); }
+    .project-view.is-gallery-portrait .project-expanded-info { overflow: visible; padding-top: var(--s-xl); }
     .project-expanded-info > * { opacity: 0; transform: translateY(12px); transition: opacity 360ms var(--ease), transform 360ms var(--ease); }
     .project-view.is-detail-ready .project-expanded-info > * { opacity: 1; transform: translateY(0); }
     .project-expanded-info > :nth-child(2) { transition-delay: 70ms; }
@@ -255,12 +260,13 @@
       .project-card { grid-column: span 12; }
       .project-art { min-height: 160px; }
       .project-cta { opacity: 1; transform: none; }
-      .project-view { width: min(100vw - 32px, 680px); height: min(100dvh - 32px, 760px); transition-duration: 440ms; }
+      .project-view { width: min(100vw - 32px, 680px); height: min(100dvh - 32px, 760px); max-height: calc(100dvh - 32px); transition-duration: 440ms; }
       .project-view.is-expanded { transform: translate3d(0, 0, 0) scale3d(1, 1, 1); }
-      .project-view-back { grid-template-columns: 1fr; overflow: auto; transform: none; }
+      .project-view-back, .project-view.is-gallery-portrait .project-view-back { position: relative; inset: auto; grid-template-columns: 1fr; overflow: visible; transform: none; }
       .project-view-front { display: none; }
       .project-view.is-expanded .project-view-back { transform: none; }
-      .project-carousel { min-height: 220px; }
+      .project-carousel, .project-view.is-gallery-portrait .project-carousel { min-height: 0; padding: var(--s-sm); }
+      .project-carousel-image, .project-view.is-gallery-portrait .project-carousel-image { width: 100%; max-width: 100%; height: auto; max-height: none; }
       .project-expanded-info { overflow: visible; padding: var(--s-3xl) var(--s-lg) var(--s-lg); }
       .project-expanded-info h2 { font-size: 30px; line-height: 38px; }
       body.project-open .site-header, body.project-open main, body.project-open .site-footer { filter: none; opacity: .3; }
@@ -523,8 +529,9 @@
       }
       function updateGalleryOrientation() {
         if (!carouselImage || !carouselImage.naturalWidth || !carouselImage.naturalHeight) return;
-        var ratio = carouselImage.naturalWidth / carouselImage.naturalHeight;
-        var orientation = ratio < .88 ? "portrait" : ratio > 1.12 ? "landscape" : "square";
+        var orientation = carouselImage.naturalWidth === carouselImage.naturalHeight
+          ? "square"
+          : carouselImage.naturalHeight > carouselImage.naturalWidth ? "portrait" : "landscape";
         view.classList.remove("is-gallery-portrait", "is-gallery-landscape", "is-gallery-square");
         view.classList.add("is-gallery-" + orientation);
         carouselImage.closest(".project-carousel").setAttribute("data-orientation", orientation);
@@ -578,8 +585,8 @@
         activeCard = card;
         var rect = card.getBoundingClientRect();
         var mobileMode = window.matchMedia("(max-width: 767px)").matches || reduceMotion;
-        var targetWidth = Math.min(window.innerWidth * (mobileMode ? 0.92 : 0.88), mobileMode ? 680 : 1120);
-        var targetHeight = Math.min(window.innerHeight * (mobileMode ? 0.94 : 0.84), mobileMode ? 760 : 720);
+        var targetWidth = Math.min(window.innerWidth * (mobileMode ? 0.92 : 0.92), mobileMode ? 680 : 1400);
+        var targetHeight = Math.min(window.innerHeight * (mobileMode ? 0.94 : 0.90), mobileMode ? 760 : 860);
         var targetLeft = (window.innerWidth - targetWidth) / 2;
         var targetTop = (window.innerHeight - targetHeight) / 2;
         var scaleX = rect.width / targetWidth;
