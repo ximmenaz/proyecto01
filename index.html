@@ -521,6 +521,22 @@
         carouselImage = null;
         carouselCount = null;
       }
+      function updateGalleryOrientation() {
+        if (!carouselImage || !carouselImage.naturalWidth || !carouselImage.naturalHeight) return;
+        var ratio = carouselImage.naturalWidth / carouselImage.naturalHeight;
+        var orientation = ratio < .88 ? "portrait" : ratio > 1.12 ? "landscape" : "square";
+        view.classList.remove("is-gallery-portrait", "is-gallery-landscape", "is-gallery-square");
+        view.classList.add("is-gallery-" + orientation);
+        carouselImage.closest(".project-carousel").setAttribute("data-orientation", orientation);
+      }
+      function preloadNearbyImages() {
+        if (!carouselImages.length) return;
+        preloadImages([
+          carouselImages[carouselIndex],
+          carouselImages[(carouselIndex - 1 + carouselImages.length) % carouselImages.length],
+          carouselImages[(carouselIndex + 1) % carouselImages.length]
+        ]);
+      }
       function updateCarousel(index, restart) {
         if (!carouselImage || !carouselImages.length) return;
         carouselIndex = (index + carouselImages.length) % carouselImages.length;
@@ -531,6 +547,8 @@
           carouselImage.alt = "Vista " + (carouselIndex + 1) + " del proyecto";
           carouselImage.classList.remove("is-changing");
           if (carouselCount) carouselCount.textContent = (carouselIndex + 1) + " / " + carouselImages.length;
+          if (carouselImage.complete) updateGalleryOrientation();
+          preloadNearbyImages();
         }, reduceMotion ? 0 : 180);
         if (restart) startCarouselTimer();
       }
@@ -545,8 +563,10 @@
         carouselImages = media.interior.length ? media.interior.slice() : [media.cover];
         carouselImage = view.querySelector("#carousel-image");
         carouselCount = view.querySelector("#carousel-count");
-        preloadImages(carouselImages.slice(1));
+        carouselImage.addEventListener("load", updateGalleryOrientation);
+        preloadNearbyImages();
         if (carouselCount) carouselCount.textContent = "1 / " + carouselImages.length;
+        if (carouselImage.complete) updateGalleryOrientation();
         view.querySelectorAll("[data-carousel]").forEach(function (control) {
           control.addEventListener("click", function () { updateCarousel(carouselIndex + (control.dataset.carousel === "next" ? 1 : -1), true); });
         });
