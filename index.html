@@ -322,14 +322,19 @@
           <a class="button button-primary" href="#proyectos">Ver proyectos</a>
           <a class="button button-secondary" href="#contacto">Contactarme</a>
         </div>
-        <figure class="hero-photo hero-enter">
-          <img src="assets/img/yo.jpeg" alt="Ximena Zuzuarregui frente al mar al atardecer">
-        </figure>
       </div>
     </section>
 
     <section class="section about" id="sobre-mi" aria-labelledby="about-title">
       <div class="container about-grid">
+        <div class="about-visual">
+          <img class="about-symbol about-symbol--large" src="assets/svg/simbolo.svg" alt="" aria-hidden="true">
+          <div class="about-glass" aria-hidden="true"></div>
+          <figure class="about-portrait">
+            <img src="assets/img/yo.jpeg" alt="Ximena Zuzuarregui frente al mar al atardecer">
+          </figure>
+          <img class="about-symbol about-symbol--small" src="assets/svg/simbolo.svg" alt="" aria-hidden="true">
+        </div>
         <div class="about-copy">
           <p class="eyebrow">Sobre mí</p>
           <h2 id="about-title">Curiosidad, colaboración y aprendizaje constante.</h2>
@@ -679,21 +684,16 @@
 
         var hero = document.querySelector(".hero");
         var heroLogo = document.querySelector(".hero-mark img");
-        var heroPhoto = document.querySelector(".hero-photo");
         var heroSymbols = Array.prototype.slice.call(document.querySelectorAll(".hero-symbol")).map(function (symbol) {
           return { image: symbol.querySelector(".hero-symbol-img"), depth: Number(symbol.dataset.depth), x: 0, y: 0, targetX: 0, targetY: 0 };
         });
         var logoX = 0, logoY = 0, logoTargetX = 0, logoTargetY = 0, logoFrame;
-        var photoX = 0, photoY = 0, photoTargetX = 0, photoTargetY = 0;
         function moveHeroAmbient() {
           logoFrame = undefined;
           logoX += (logoTargetX - logoX) * 0.12;
           logoY += (logoTargetY - logoY) * 0.12;
-          photoX += (photoTargetX - photoX) * 0.1;
-          photoY += (photoTargetY - photoY) * 0.1;
           heroLogo.style.transform = "translate3d(" + logoX + "px, " + logoY + "px, 0)";
-          heroPhoto.style.transform = "translate3d(" + photoX + "px, " + photoY + "px, 0)";
-          var moving = Math.abs(logoTargetX - logoX) > 0.1 || Math.abs(logoTargetY - logoY) > 0.1 || Math.abs(photoTargetX - photoX) > 0.1 || Math.abs(photoTargetY - photoY) > 0.1;
+          var moving = Math.abs(logoTargetX - logoX) > 0.1 || Math.abs(logoTargetY - logoY) > 0.1;
           heroSymbols.forEach(function (symbol) {
             symbol.x += (symbol.targetX - symbol.x) * 0.08;
             symbol.y += (symbol.targetY - symbol.y) * 0.08;
@@ -709,19 +709,32 @@
           var y = ((event.clientY - rect.top) / rect.height) - .5;
           logoTargetX = Math.max(-4, Math.min(4, x * 8));
           logoTargetY = Math.max(-3, Math.min(3, y * 6));
-          photoTargetX = Math.max(-4, Math.min(4, x * 8));
-          photoTargetY = Math.max(-3, Math.min(3, y * 6));
           heroSymbols.forEach(function (symbol) { symbol.targetX = -x * symbol.depth; symbol.targetY = -y * symbol.depth; });
           if (!logoFrame) logoFrame = requestAnimationFrame(moveHeroAmbient);
         }, { passive: true });
         hero.addEventListener("pointerleave", function () {
           logoTargetX = 0;
           logoTargetY = 0;
-          photoTargetX = 0;
-          photoTargetY = 0;
           heroSymbols.forEach(function (symbol) { symbol.targetX = 0; symbol.targetY = 0; });
           if (!logoFrame) logoFrame = requestAnimationFrame(moveHeroAmbient);
         }, { passive: true });
+
+        var aboutVisual = document.querySelector(".about-visual");
+        var aboutPortrait = document.querySelector(".about-portrait");
+        var aboutSymbol = document.querySelector(".about-symbol--large");
+        if (aboutVisual && aboutPortrait && aboutSymbol) {
+          aboutVisual.addEventListener("pointermove", function (event) {
+            var rect = aboutVisual.getBoundingClientRect();
+            var x = ((event.clientX - rect.left) / rect.width) - .5;
+            var y = ((event.clientY - rect.top) / rect.height) - .5;
+            aboutPortrait.style.transform = "translate3d(" + (x * 6) + "px, " + (y * 6 - 2) + "px, 0) scale(1.01)";
+            aboutSymbol.style.transform = "translate3d(" + (x * -12) + "px, " + (y * -12) + "px, 0)";
+          }, { passive: true });
+          aboutVisual.addEventListener("pointerleave", function () {
+            aboutPortrait.style.transform = "";
+            aboutSymbol.style.transform = "";
+          }, { passive: true });
+        }
       }
 
       var sections = document.querySelectorAll("main section[id]");
